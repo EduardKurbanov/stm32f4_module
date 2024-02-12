@@ -3,6 +3,7 @@
 
 #include <math.h>
 #include <inttypes.h>
+#include "ads1115_defs.h"
 
 enum PGA_ADS1115
 {

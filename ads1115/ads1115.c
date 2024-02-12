@@ -2,6 +2,7 @@
 #include "ads1115_defs.h"
 #include "i2c.h"
 
+
 static uint8_t i2c_write_data(uint8_t DevAddress, uint8_t MemAddress, uint8_t* pData, uint8_t Size)
 {
 	return HAL_I2C_Mem_Write(&hi2c1, DevAddress << 1, MemAddress, 1U, pData, Size, 100);
