@@ -38,10 +38,10 @@ float get_read_adc(uint8_t channel_adc, uint16_t pga_adc, uint8_t sps_adc)
 	val = (buff_rx[0] << 8) | (buff_rx[1]);
 	if (val > 0x7FFF)
 	{
-		return (val - 0xFFFF) * pga_adc / 32768.0;
+		return (val - 0xFFFF) * pga_adc / 32768.0f;
 	}
 	else
 	{
-		return ((buff_rx[0] << 8) | (buff_rx[1])) * pga_adc / 32768.0;
+		return ((buff_rx[0] << 8) | (buff_rx[1])) * pga_adc / 32768.0f;
 	}
 }
