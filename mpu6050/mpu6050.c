@@ -4,7 +4,7 @@
 
 #define CONVERT_DATA(__buffer)   (int16_t)((__buffer[0] << 8) | __buffer[1])
 #define RAD_TO_DEG(__rad)        ((__rad) * (180.0f / M_PI))
-#define CALIBRATION_SAMPLES      2000
+#define CALIBRATION_SAMPLES      2000.0f
 
 
 static uint8_t i2c_write_data(uint8_t DevAddress, uint8_t MemAddress, uint8_t *pData, uint8_t Size)
@@ -52,7 +52,7 @@ float temp(void)
 {
 	uint8_t buff[2] = { 0 };
 	i2c_read_data(_DEVICE_ADDRESS, _REGISTER_TEMP_OUT_H, buff, 2U);
-	return ( CONVERT_DATA(buff) / 340) + 36.53f;
+	return ( CONVERT_DATA(buff) / 340.0f) + 36.53f;
 }
 
 float gyro_axis_x(void)
@@ -78,7 +78,7 @@ float gyro_axis_z(void)
 
 float axis_rotation_angle_x(void)
 {
-	return RAD_TO_DEG(atan2f(accel_axis_x(),sqrt(powf(accel_axis_x(), 2.0f) + powf(accel_axis_z(), 2.0f))));
+	return RAD_TO_DEG(atan2f(accel_axis_y(),sqrt(powf(accel_axis_x(), 2.0f) + powf(accel_axis_z(), 2.0f))));
 }
 
 float axis_rotation_angle_y(void)

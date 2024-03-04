@@ -161,8 +161,8 @@ float get_bearing_raw(void)
 float get_bearing(void)
 {
     float degrees = 0.0f;
-    float x = get_magnetic_field_axis_x();
-    float y = get_magnetic_field_axis_y();
+    float x = get_magnet_field()[0];
+    float y = get_magnet_field()[1];
     if (x == 0.0f || y == 0.0f) 
     {
         return 0;
