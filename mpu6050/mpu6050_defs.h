@@ -1,11 +1,19 @@
+/*
+ * mpu6050_defs.h
+ *
+ *  Created on: Sep 3, 2024
+ *      Author: Edward
+ */
+
 #ifndef MPU6050_DEFS_H
 #define MPU6050_DEFS_H
 
-#define _DEVICE_ADDRESS                0x68
+
 #define _WHO_AM_I                      0x75
 // # MPU - 6050 Registers
 #define _REGISTER_MPU6050_PWR_MGMT_1   0x6B  //# Primary power / sleep control register
 #define _REGISTER_MPU6050_PWR_MGMT_2   0x6C  //# Secondary power / sleep control register
+#define _REGISTER_MPU6050_SMPLRT_DIV   0x07
 #define _REGISTER_GYRO_CONFIG          0x1B
 #define _REGISTER_ACCEL_CONFIG         0x1C
 #define _REGISTER_ACCEL_X_OUT_H        0x3B
@@ -43,5 +51,6 @@
 #define _GYRO_RANGE_500_DPS            65.5f   //#  + / -500 deg / s
 #define _GYRO_RANGE_1000_DPS           32.8f  //#  + / -1000 deg / s
 #define _GYRO_RANGE_2000_DPS           16.4f  //#  + / -2000 deg / s
+
 
 #endif

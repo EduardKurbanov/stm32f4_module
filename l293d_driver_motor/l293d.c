@@ -1,9 +1,77 @@
-#include "dvr8833.h"
-#include "dvr8833_defs.h"
-#include "gpio.h"
+/*
+ * l293d.c
+ *
+ *  Created on: Sep 3, 2024
+ *      Author: Edward
+ */
+
+#include "l293d.h"
+#include "l293d_defs.h"
 
 
-void driver_port_reset(void)
+static void forward_control(void)
+{
+//	if ((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_15) == GPIO_PIN_SET))
+	if ((HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_15) == GPIO_PIN_SET))
+	{
+		//status_driver = E_OK_MOTOR;
+	}
+	else
+	{
+		HAL_GPIO_WritePin(ENGINE_STANDBY_PORT, ENGINE_STANDBY_PORT_PIN, GPIO_PIN_RESET);
+		while (1)
+		{
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+				HAL_Delay(1000);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+				HAL_Delay(1000);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+				HAL_Delay(1000);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+				HAL_Delay(1000);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+				HAL_Delay(2000);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+				HAL_Delay(1000);
+			if ((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_10) == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOA, GPIO_PIN_15) == GPIO_PIN_SET))
+			{
+				break;
+			}
+		}
+	}
+
+//	if ((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4) == GPIO_PIN_SET))
+	if ((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4) == GPIO_PIN_SET))
+	{
+		//status_driver = E_OK_MOTOR;
+	}
+	else
+	{
+		HAL_GPIO_WritePin(ENGINE_STANDBY_PORT, ENGINE_STANDBY_PORT_PIN, GPIO_PIN_RESET);
+		while (1)
+		{
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+				HAL_Delay(1000);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+				HAL_Delay(1000);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+				HAL_Delay(1000);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+				HAL_Delay(1000);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_SET);
+				HAL_Delay(2000);
+			HAL_GPIO_WritePin(GPIOB, GPIO_PIN_15, GPIO_PIN_RESET);
+				HAL_Delay(2000);
+			if ((HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_0) == GPIO_PIN_SET) && (HAL_GPIO_ReadPin(GPIOB, GPIO_PIN_4) == GPIO_PIN_SET))
+			{
+				break;
+			}
+		}
+	}
+}
+
+
+void l293d_driver_port_reset(void)
 {
 	HAL_GPIO_WritePin(ENGINE_STANDBY_PORT, ENGINE_STANDBY_PORT_PIN, GPIO_PIN_RESET);
 	HAL_GPIO_WritePin(ENGINE_RIGHT_MOVE_FORWARD_PORT, ENGINE_RIGHT_MOVE_FORWARD_PORT_PIN, GPIO_PIN_RESET);
@@ -12,9 +80,9 @@ void driver_port_reset(void)
 	HAL_GPIO_WritePin(ENGINE_LEFT_MOVE_BACK_PORT, ENGINE_LEFT_MOVE_BACK_PORT_PIN, GPIO_PIN_RESET);
 }
 
-void driver_motor(E_MOTOR_COMMAND motorAction, E_MOTOR_STATUS *error_driver)
+void l293d_driver_motor(E_MOTOR_COMMAND motorAction, E_MOTOR_STATUS *error_driver)
 {
-	E_STATUS status_driver = E_OK;
+	E_MOTOR_STATUS status_driver = E_OK_MOTOR;
 	switch (motorAction)
 	{
 	    case E_FORWARD:
@@ -22,16 +90,18 @@ void driver_motor(E_MOTOR_COMMAND motorAction, E_MOTOR_STATUS *error_driver)
 
 			HAL_GPIO_WritePin(ENGINE_RIGHT_MOVE_FORWARD_PORT, ENGINE_RIGHT_MOVE_FORWARD_PORT_PIN, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(ENGINE_RIGHT_MOVE_BACK_PORT, ENGINE_RIGHT_MOVE_BACK_PORT_PIN, GPIO_PIN_RESET);
-
+			HAL_Delay(50);
 			HAL_GPIO_WritePin(ENGINE_LEFT_MOVE_FORWARD_PORT, ENGINE_LEFT_MOVE_FORWARD_PORT_PIN, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(ENGINE_LEFT_MOVE_BACK_PORT, ENGINE_LEFT_MOVE_BACK_PORT_PIN, GPIO_PIN_RESET);
+
+			//forward_control();
 			break;
 		case E_BACK:
 			HAL_GPIO_WritePin(ENGINE_STANDBY_PORT, ENGINE_STANDBY_PORT_PIN, GPIO_PIN_SET);
 
 			HAL_GPIO_WritePin(ENGINE_RIGHT_MOVE_FORWARD_PORT, ENGINE_RIGHT_MOVE_FORWARD_PORT_PIN, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(ENGINE_RIGHT_MOVE_BACK_PORT, ENGINE_RIGHT_MOVE_BACK_PORT_PIN, GPIO_PIN_SET);
-
+			HAL_Delay(50);
 			HAL_GPIO_WritePin(ENGINE_LEFT_MOVE_FORWARD_PORT, ENGINE_LEFT_MOVE_FORWARD_PORT_PIN, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(ENGINE_LEFT_MOVE_BACK_PORT, ENGINE_LEFT_MOVE_BACK_PORT_PIN, GPIO_PIN_SET);
 			break;
@@ -40,13 +110,17 @@ void driver_motor(E_MOTOR_COMMAND motorAction, E_MOTOR_STATUS *error_driver)
 
 			HAL_GPIO_WritePin(ENGINE_LEFT_MOVE_FORWARD_PORT, ENGINE_LEFT_MOVE_FORWARD_PORT_PIN, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(ENGINE_LEFT_MOVE_BACK_PORT, ENGINE_LEFT_MOVE_BACK_PORT_PIN, GPIO_PIN_RESET);
+
+			//forward_control();
 			break;
 		case E_LEFT:
 			HAL_GPIO_WritePin(ENGINE_STANDBY_PORT, ENGINE_STANDBY_PORT_PIN, GPIO_PIN_SET);
 
 			HAL_GPIO_WritePin(ENGINE_RIGHT_MOVE_FORWARD_PORT, ENGINE_RIGHT_MOVE_FORWARD_PORT_PIN, GPIO_PIN_SET);
 			HAL_GPIO_WritePin(ENGINE_RIGHT_MOVE_BACK_PORT, ENGINE_RIGHT_MOVE_BACK_PORT_PIN, GPIO_PIN_RESET);
-			break
+
+			//forward_control();
+			break;
 		case E_STOP:
 			HAL_GPIO_WritePin(ENGINE_STANDBY_PORT, ENGINE_STANDBY_PORT_PIN, GPIO_PIN_RESET);
 
@@ -55,9 +129,9 @@ void driver_motor(E_MOTOR_COMMAND motorAction, E_MOTOR_STATUS *error_driver)
 
 			HAL_GPIO_WritePin(ENGINE_LEFT_MOVE_FORWARD_PORT, ENGINE_LEFT_MOVE_FORWARD_PORT_PIN, GPIO_PIN_RESET);
 			HAL_GPIO_WritePin(ENGINE_LEFT_MOVE_BACK_PORT, ENGINE_LEFT_MOVE_BACK_PORT_PIN, GPIO_PIN_RESET);
-			break
+			break;
 		default:
-			status_driver = E_ERROR;
+			status_driver = E_ERROR_MOTOR;
 			break;
 	}
 	*error_driver = status_driver;

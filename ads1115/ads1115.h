@@ -1,9 +1,20 @@
+/*
+ * ads1115.h
+ *
+ *  Created on: Sep 3, 2024
+ *      Author: Edward
+ */
+
 #ifndef ADS1115_H
 #define ADS1115_H
 
+#include "i2c.h"
 #include <math.h>
 #include <inttypes.h>
 #include "ads1115_defs.h"
+
+#define _DEVICE_ADDRESS                0x48
+#define _BUS_HANDLER                   &hi2c1
 
 enum PGA_ADS1115
 {
@@ -35,6 +46,13 @@ enum CHANNEL_ADC_ADS1115
 	AIN3 = _REG_ADS1115_CONFIG_MUX_AINP_AIN3_and_AINN_GND
 };
 
-float get_read_adc(uint8_t channel_adc, uint16_t pga_adc, uint8_t sps_adc);
+typedef enum
+{
+	E_OK_ADC = 100,
+	E_ERROR_ADC = 200,
+}E_ADC_STATUS;
+
+void ads1115_status(E_ADC_STATUS *error_adc);
+float ads1115_get_read(uint16_t channel_adc, uint16_t pga_adc, uint8_t sps_adc);
 
 #endif

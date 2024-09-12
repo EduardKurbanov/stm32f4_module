@@ -1,8 +1,14 @@
+/*
+ * qmc5883l_defs.c
+ *
+ *  Created on: Sep 3, 2024
+ *      Author: Edward
+ */
+
 #ifndef QMC5883L_DEFS_H
 #define QMC5883L_DEFS_H
 
 
-#define _DEVICE_ADDRESS                            0x0D
 #define _REG_QMC5883L_DATA_OUTPUT_X_LSB_L          0x00
 #define _REG_QMC5883L_DATA_OUTPUT_X_MSB_H          0x01
 #define _REG_QMC5883L_DATA_OUTPUT_Y_LSB_L          0x02

@@ -1,7 +1,13 @@
+/*
+ * ads1115_defs.h
+ *
+ *  Created on: Sep 3, 2024
+ *      Author: Edward
+ */
+
 #ifndef ADS1115_DEFS_H
 #define ADS1115_DEFS_H
 
-#define _DEVICE_ADDRESS                                    0x48
 
 #define _REG_ADS1115_POINTER_CONVERSION                    0x00
 #define _REG_ADS1115_ADDRESS_POINTER_CONFIG                0x01
@@ -27,6 +33,7 @@
 #define _REG_ADS1115_CONFIG_PGA_FSR__0_256V                0x0A00
 
 #define _REG_ADS1115_CONFIG_MODE_SINGLE                    0x100
+#define _REG_ADS1115_CONFIG_MODE_CONT                      0x0000
 
 #define _REG_ADS1115_CONFIG_DR_8_SPS                       0x0000
 #define _REG_ADS1115_CONFIG_DR_16_SPS                      0x0020
@@ -50,5 +57,6 @@
 #define _REG_ADS1115_COMP_QUE_AFTER_2_CONVER               0x0001
 #define _REG_ADS1115_COMP_QUE_AFTER_3_CONVER               0x0002
 #define _REG_ADS1115_COMP_QUE_DISABLE_CONVER               0x0003
+
 
 #endif
