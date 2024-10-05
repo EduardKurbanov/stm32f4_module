@@ -43,12 +43,12 @@ float Alt = 0.0f;
 
 
 //--------------------------------------------------------------------------------------------------
-static uint8_t i2c_write_data(uint8_t MemAddress, uint8_t *pData, uint8_t Size)
+static uint8_t i2c_write_data (uint8_t MemAddress, uint8_t *pData, uint8_t Size)
 {
 	return HAL_I2C_Mem_Write(_BMP180_I2C, _BMP180_DEVICE_ADDRESS << 1, MemAddress, 1U, pData, Size, 1000);
 }
 //--------------------------------------------------------------------------------------------------
-static uint8_t i2c_read_data(uint8_t MemAddress, uint8_t* pData, uint8_t Size)
+static uint8_t i2c_read_data (uint8_t MemAddress, uint8_t* pData, uint8_t Size)
 {
 	return HAL_I2C_Mem_Read(_BMP180_I2C, _BMP180_DEVICE_ADDRESS << 1, MemAddress, 1U, pData, Size, 1000);
 }
@@ -159,13 +159,13 @@ float bmp180_get_press (int oss)
 	return Press;
 }
 //--------------------------------------------------------------------------------------------------
-float bmp180_get_convert_press_in_millimeter_of_mercury(int oss)
+float bmp180_get_convert_press_in_millimeter_of_mercury (int oss)
 {
 	Press = bmp180_get_press(oss);
 	return Press * _BMP180_CONST_1Pa_in_mmHg;
 }
 //--------------------------------------------------------------------------------------------------
-float bmp180_get_alt(int oss)
+float bmp180_get_alt (int oss)
 {
 	Press = bmp180_get_press(oss);
 	Alt = _BMP180_PRESS_CONST_COEFICIENT * (1 - (pow(((float)Press / (float)_BMP180_PRESS_CONST_SEA_LEVEL), (1 / 5.255))));

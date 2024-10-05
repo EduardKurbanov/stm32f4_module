@@ -47,7 +47,7 @@ int main(void)
 		temp = bmp180_start();
 		pre = bmp180_get_press(0);
 		alt = bmp180_get_alt(0);
-		mmhg = BMP180_GetConvertPressInMillimeterOfMercury(0);
+		mmhg = bmp180_get_convert_press_in_millimeter_of_mercury(0);
 	}
 }
 */
